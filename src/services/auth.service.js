@@ -48,8 +48,8 @@ const refreshAuth = async (refreshToken) => {
 };
 
 
-const resetPassword = async (newPassword, email) => {
-  const user = await userService.getUserByEmail(email);
+const resetPassword = async (newPassword, userId) => {
+  const user = await userService.getUserById(userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }

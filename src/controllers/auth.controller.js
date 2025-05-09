@@ -10,23 +10,19 @@ const {
 } = require("../services");
 
 const register = catchAsync(async (req, res) => {
-  const { email, fullName, firstName, lastName, ...rest } = req.body;
+  const { email,  ...rest } = req.body;
   const isUser = await userService.getUserByEmail(email);
 
   if (isUser) {
     if (isUser.isDeleted) {
       await userService.isUpdateUser(isUser.id, {
-        fullName: fullName || `${firstName} ${lastName}`,
-        firstName,
-        lastName,
+        
         email,
         ...rest
       });
     } else if (!isUser.isEmailVerified) {
       await userService.isUpdateUser(isUser.id, {
-        fullName: fullName || `${firstName} ${lastName}`,
-        firstName,
-        lastName,
+       
         email,
         ...rest
       });
@@ -35,9 +31,7 @@ const register = catchAsync(async (req, res) => {
     }
   } else {
     await userService.createUser({
-      fullName: fullName || `${firstName} ${lastName}`,
-      firstName,
-      lastName,
+      
       email,
       ...rest
     });
@@ -122,8 +116,10 @@ const forgotPassword = catchAsync(async (req, res) => {
   //   );
   // }
   // Generate OTC (One-Time Code)
-  const oneTimeCode =
-    Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  // const oneTimeCode =
+  //   Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
+
 
   // Store the OTC and its expiration time in the database
   user.oneTimeCode = oneTimeCode;
@@ -143,7 +139,9 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-  await authService.resetPassword(req.body.password, req.body.email);
+  const user=req.user._id
+  console.log(user,"user");
+  await authService.resetPassword(req.body.password, user);
   res.status(httpStatus.OK).json(
     response({
       message: "Password Reset Successful",

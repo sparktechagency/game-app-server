@@ -8,7 +8,10 @@ const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
-  const oneTimeCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  // const oneTimeCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000; for the 6 digit code 
+  const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
+  console.log(oneTimeCode);
+
 
   if (userBody.role === "user" || userBody.role === "admin") {
 
@@ -88,8 +91,11 @@ const isUpdateUser = async (userId, updateBody) => {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  const oneTimeCode =
-    Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  // const oneTimeCode =
+  //   Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+  const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
+
 
   if (updateBody.role === "user" || updateBody.role === "admin") {
     sendEmailVerification(updateBody.email, oneTimeCode);
