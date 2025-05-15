@@ -17,9 +17,9 @@ router
   .route("/self/update")
   .patch(
     auth("common"),
-    validate(userValidation.updateUser),
-    [uploadUsers.single("image")],
-    convertHeicToPngMiddleware(UPLOADS_FOLDER_USERS),
+    // validate(userValidation.updateUser),
+    // [uploadUsers.single("image")],
+    // convertHeicToPngMiddleware(UPLOADS_FOLDER_USERS),
     userController.updateProfile
   );
 

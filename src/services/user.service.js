@@ -54,7 +54,7 @@ const getUserByEmail = async (email) => {
   return User.findOne({ email });
 };
 
-const updateUserById = async (userId, updateBody, files) => {
+const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
 
   if (!user) {
@@ -65,12 +65,12 @@ const updateUserById = async (userId, updateBody, files) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
 
-  if (files && files.length > 0) {
-    updateBody.photo = files;
-  } else {
-    delete updateBody.photo; // remove the photo property from the updateBody if no new photo is provided
-  }
-
+  // if (files && files.length > 0) {
+  //   updateBody.photo = files;
+  // } else {
+  //   delete updateBody.photo; // remove the photo property from the updateBody if no new photo is provided
+  // }
+// console.log(updateBody,"sdklfjsdkl;fjsd");
   Object.assign(user, updateBody);
   await user.save();
   return user;
