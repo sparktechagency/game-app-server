@@ -45,7 +45,7 @@ const subscriptionData = [
     subscriptionType: "year",
     price: 200,
     isDiscount: true,
-    discountPrice: 150,
+    discountPrice: 10,
   },
 ];
 
