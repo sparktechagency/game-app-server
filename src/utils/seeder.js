@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 const { User } = require("../models");
-const Subscription = require("../models/subscription"); // Make sure the path is correct
+const Subscription = require("../models/subscription");
+const Privacy = require("../models/privacyPolicy.model");
+const TermsConditions = require("../models/termsConditions.model");
+const AboutUs = require("../models/aboutUs.model");
 
 const usersData = [
   {
@@ -42,7 +45,25 @@ const subscriptionData = [
     subscriptionType: "year",
     price: 200,
     isDiscount: true,
-    discountPrice: 10,
+    discountPrice: 150,
+  },
+];
+
+const privacyData = [
+  {
+    content: "This is the privacy policy content. We respect your privacy and ensure that your data is protected.",
+  },
+];
+
+const termsData = [
+  {
+    content: "These are the terms and conditions. By using this service, you agree to comply with our terms.",
+  },
+];
+
+const aboutUsData = [
+  {
+    content: "This is the About Us section. We are a company dedicated to providing the best service to our users.",
   },
 ];
 
@@ -85,11 +106,44 @@ const seedSubscriptions = async () => {
   }
 };
 
+const seedPrivacy = async () => {
+  try {
+    await Privacy.deleteMany();
+    await Privacy.insertMany(privacyData);
+    console.log("Privacy policy seeded successfully!");
+  } catch (err) {
+    console.error("Error seeding privacy policy:", err);
+  }
+};
+
+const seedTerms = async () => {
+  try {
+    await TermsConditions.deleteMany();
+    await TermsConditions.insertMany(termsData);
+    console.log("Terms and Conditions seeded successfully!");
+  } catch (err) {
+    console.error("Error seeding terms and conditions:", err);
+  }
+};
+
+const seedAboutUs = async () => {
+  try {
+    await AboutUs.deleteMany();
+    await AboutUs.insertMany(aboutUsData);
+    console.log("About Us content seeded successfully!");
+  } catch (err) {
+    console.error("Error seeding About Us content:", err);
+  }
+};
+
 const seedDatabase = async () => {
   await connectDB();
   await dropDatabase();
   await seedUsers();
   await seedSubscriptions();
+  await seedPrivacy();
+  await seedTerms();
+  await seedAboutUs();
   console.log("Database seeding completed!");
   mongoose.disconnect();
 };
