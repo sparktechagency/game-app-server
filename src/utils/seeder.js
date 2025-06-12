@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 const { User } = require("../models");
+const Subscription = require("../models/subscription"); // Make sure the path is correct
 
 const usersData = [
   {
     fullName: "Testing Super Admin",
-    email: "super.admin@gmail.com",
+    email: "admin@gmail.com",
     phoneNumber: "01735566789",
     password: "$2a$08$cUQ3uMdbQjlyDF/dgn5mNuEt9fLJZqq8TaT9aKabrFuG5wND3/mPO", // password: 1qazxsw2
     role: "superAdmin",
@@ -13,7 +14,7 @@ const usersData = [
   },
   {
     fullName: "Testing Admin",
-    email: "admin@gmail.com",
+    email: "cole@gmail.com",
     phoneNumber: "01735566789",
     password: "$2a$08$cUQ3uMdbQjlyDF/dgn5mNuEt9fLJZqq8TaT9aKabrFuG5wND3/mPO",
     role: "admin",
@@ -27,6 +28,21 @@ const usersData = [
     password: "$2a$08$cUQ3uMdbQjlyDF/dgn5mNuEt9fLJZqq8TaT9aKabrFuG5wND3/mPO",
     role: "user",
     isEmailVerified: true,
+  },
+];
+
+const subscriptionData = [
+  {
+    subscriptionType: "month",
+    price: 20,
+    isDiscount: false,
+    discountPrice: 0,
+  },
+  {
+    subscriptionType: "year",
+    price: 200,
+    isDiscount: true,
+    discountPrice: 10,
   },
 ];
 
@@ -59,10 +75,21 @@ const seedUsers = async () => {
   }
 };
 
+const seedSubscriptions = async () => {
+  try {
+    await Subscription.deleteMany();
+    await Subscription.insertMany(subscriptionData);
+    console.log("Subscriptions seeded successfully!");
+  } catch (err) {
+    console.error("Error seeding subscriptions:", err);
+  }
+};
+
 const seedDatabase = async () => {
   await connectDB();
   await dropDatabase();
   await seedUsers();
+  await seedSubscriptions();
   console.log("Database seeding completed!");
   mongoose.disconnect();
 };
