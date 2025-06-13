@@ -8,6 +8,8 @@ const router = express.Router();
 // show all the subacription 
 //----------------------------------------------
 router.get("/show-all",subscribtionController.showSubscription)
+
+router.patch("/update-byId",subscribtionController.updateSbuscription)
   
 
   

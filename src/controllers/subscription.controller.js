@@ -22,8 +22,28 @@ const showSubscription=catchAsync(async(req,res)=>{
     })
   );
 })
+// show the updatedsubscription 
+//--------------------------------------------------------
+const updateSbuscription=catchAsync(async(req,res)=>{
+    const data=req.body
+    console.log(data);
+
+    const result=await subscriptionService.updateSbuscription(data)
+
+    // Return the success response
+   res.status(httpStatus.OK).json(
+    response({
+      message: "updateing the subscription  ",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data: result,
+     
+    })
+  );
+})
 
 
 module.exports={
-    showSubscription
+    showSubscription,
+    updateSbuscription
 }

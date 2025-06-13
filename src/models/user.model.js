@@ -100,6 +100,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    
     isResetPassword: {
       type: Boolean,
       default: false,
