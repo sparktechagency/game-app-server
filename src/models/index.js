@@ -9,3 +9,4 @@ module.exports.PrivacyPolicy = require('./privacyPolicy.model');
 module.exports.Support = require('./support.model');
 module.exports.Subscription=require('./subscription')
 module.exports.Purchase=require('./purchase.model')
+module.exports.WorkoutGameStatuse=require('./workout.model')

@@ -23,24 +23,6 @@ const makePurchase=catchAsync(async(req,res)=>{
          
         }))
 })
-// make free try controller
-//------------------------------------------------------
-const freeTry=catchAsync(async(req,res)=>{
-    const id=req.user._id
-
-    const result=await purchaseService.freeTry(id,req.body)
-    console.log(result,id);
-
-     // Return the success response
-       res.status(httpStatus.CREATED).json(
-        response({
-          message: "purches the subscription ",
-          status: "OK",
-          statusCode: httpStatus.CREATED,
-          data: result,
-         
-        }))
-})
 
 
 
@@ -49,5 +31,5 @@ const freeTry=catchAsync(async(req,res)=>{
 
 module.exports={
     makePurchase,
-    freeTry
+    
 }

@@ -5,6 +5,7 @@ const userRoute = require("./user.routes");
 const docsRoute = require("./docs.routes");
 const subscriptionRoute=require('./subscription.routes')
 const purchaseRouter=require('./purchase.routes')
+const workoutGameStatus=require('./workoutGameStatus.route')
 
 
 const router = express.Router();
@@ -25,6 +26,10 @@ const defaultRoutes = [
   {
     path: "/purchase",
     route: purchaseRouter,
+  },
+  {
+    path: "/wokout-game",
+    route: workoutGameStatus,
   },
  
 ];

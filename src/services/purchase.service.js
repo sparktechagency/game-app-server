@@ -41,33 +41,8 @@ const user = await User.findByIdAndUpdate(
 
 
 }
-const freeTry=async(id,data)=>{
-
-const trialStart = new Date();
-const trialEnd = new Date(trialStart.getTime() + 14 * 24 * 60 * 60 * 1000); // Add 14 days
-
-const trialPurchase = new Purchase({
-    user: id,
-    subscriptionType: 'none',
-    price: 0,
-    transactionId: "trial",
-    subscriptionId: null,
-    customerId: data.customerId, // if already created
-    status: "trialing",
-    trialStartDate: trialStart,
-    trialEndDate: trialEnd,
-    currentPeriodStart: null,
-    currentPeriodEnd: null,
-    cancelAtPeriodEnd: false,
-});
-
-await trialPurchase.save();
-
-
-
-}
 
 module.exports={
     makePurchase,
-    freeTry
+    
 }

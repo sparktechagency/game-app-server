@@ -8,7 +8,7 @@ const router = express.Router();
 // show all the subacription 
 //----------------------------------------------
 router.post("/create",auth("common"),purchaseController.makePurchase)
-router.post("/free-try",auth("common"),purchaseController.freeTry)
+
 
 
   
