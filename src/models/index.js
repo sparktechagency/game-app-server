@@ -10,3 +10,5 @@ module.exports.Support = require('./support.model');
 module.exports.Subscription=require('./subscription')
 module.exports.Purchase=require('./purchase.model')
 module.exports.WorkoutGameStatuse=require('./workout.model')
+module.exports.SpeedTapingUser=require('./speedTapping.model')
+module.exports.SpeedTapingHistory=require('./speedTapping.model')

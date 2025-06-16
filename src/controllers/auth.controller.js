@@ -101,36 +101,73 @@ const refreshTokens = catchAsync(async (req, res) => {
   // res.send({ ...tokens });
 });
 
+// const forgotPassword = catchAsync(async (req, res) => {
+//   const user = await userService.getUserByEmail(req.body.email);
+//   if (!user) {
+//     throw new ApiError(
+//       httpStatus.BAD_REQUEST,
+//       "No users found with this email"
+//     );
+//   }
+//   // if(user.oneTimeCode === 'verified'){
+//   //   throw new ApiError(
+//   //     httpStatus.BAD_REQUEST,
+//   //     "try 3 minute later"
+//   //   );
+//   // }
+//   // Generate OTC (One-Time Code)
+//   // const oneTimeCode =
+//   //   Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+//   const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
+
+
+//   // Store the OTC and its expiration time in the database
+//   user.oneTimeCode = oneTimeCode;
+//   user.isResetPassword = true;
+//   await user.save();
+
+//   //console.log("oneTimeCode", user);
+//   await emailService.sendResetPasswordEmail(req.body.email, oneTimeCode);
+//   res.status(httpStatus.OK).json(
+//     response({
+//       message: "Email Sent",
+//       status: "OK",
+//       statusCode: httpStatus.OK,
+//       data: {},
+//     })
+//   );
+// });
+
+
 const forgotPassword = catchAsync(async (req, res) => {
   const user = await userService.getUserByEmail(req.body.email);
+
   if (!user) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "No users found with this email"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, "No users found with this email");
   }
-  // if(user.oneTimeCode === 'verified'){
-  //   throw new ApiError(
-  //     httpStatus.BAD_REQUEST,
-  //     "try 3 minute later"
-  //   );
-  // }
-  // Generate OTC (One-Time Code)
-  // const oneTimeCode =
-  //   Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+  // Check if previous OTP is still valid (within 3 minutes)
+  const currentTime = new Date();
+  if (user.oneTimeCodeExpiresAt && user.oneTimeCodeExpiresAt > currentTime) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Try again after 3 minutes");
+  }
+
+  // Generate new OTP
   const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
 
-
-  // Store the OTC and its expiration time in the database
+  // Set OTP and expiration (3 minutes from now)
   user.oneTimeCode = oneTimeCode;
+  user.oneTimeCodeExpiresAt = new Date(currentTime.getTime() + 3 * 60000); // 3 minutes later
   user.isResetPassword = true;
+
   await user.save();
 
-  //console.log("oneTimeCode", user);
+  // Send OTP Email
   await emailService.sendResetPasswordEmail(req.body.email, oneTimeCode);
+
   res.status(httpStatus.OK).json(
     response({
-      message: "Email Sent",
+      message: "OTP sent successfully",
       status: "OK",
       statusCode: httpStatus.OK,
       data: {},

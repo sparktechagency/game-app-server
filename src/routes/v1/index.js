@@ -6,6 +6,7 @@ const docsRoute = require("./docs.routes");
 const subscriptionRoute=require('./subscription.routes')
 const purchaseRouter=require('./purchase.routes')
 const workoutGameStatus=require('./workoutGameStatus.route')
+const speedTappingRouter=require('./speedTapping.routes')
 
 
 const router = express.Router();
@@ -30,6 +31,10 @@ const defaultRoutes = [
   {
     path: "/wokout-game",
     route: workoutGameStatus,
+  },
+  {
+    path: "/speed-tapping",
+    route: speedTappingRouter,
   },
  
 ];

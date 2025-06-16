@@ -92,6 +92,8 @@ const userSchema = mongoose.Schema(
       required: false,
       default: null
     },
+    oneTimeCodeExpiresAt: { type: Date },
+
     isEmailVerified: {
       type: Boolean,
       default: false,
