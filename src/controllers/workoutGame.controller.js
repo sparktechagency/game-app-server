@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const response = require("../config/response");
 
 const moment = require('moment');
+const ApiError = require("../utils/ApiError");
 
 
 
@@ -55,7 +56,19 @@ const getWorkoutGameStatus = async (req, res) => {
     
         const userId = req.user._id; // Assuming you're using JWT authentication
         const { filter } = req.query;
- 
+
+   const allowedFilters = ['day', 'week', 'month', 'year'];
+
+    if (!allowedFilters.includes(filter)) {
+        return res.status(httpStatus.BAD_REQUEST).json(
+            response({
+              message: "invalid filter type. Only day, week, month, or year are allowed.",
+              status: "bad requiest",
+              statusCode: httpStatus.BAD_REQUEST,
+              
+             
+            }))
+    }
         const date = moment().startOf('day');
         const result = await workoutGameService.getWorkoutGameStatus(userId, filter, date);
 

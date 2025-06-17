@@ -7,9 +7,10 @@ const ApiError = require("../utils/ApiError");
 
 // Create or update score
 const createScore = catchAsync(async (req, res) => {
-    const { score } = req.body;
+    let { score } = req.body;
     const userId = req.user.id; // Assuming you are using JWT and user is attached to req.user
-
+// Convert score to number
+    score = parseInt(score);
     if (!score || score <= 0) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Score must be provided and greater than 0.');
     }

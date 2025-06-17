@@ -22,12 +22,14 @@ const saveScore = async (userId, score) => {
 // Get high score and history
 const getUserGameData = async (userId) => {
     const highScoreData = await SpeedTapingUser.findOne({ user: userId });
-    const history = await SpeedTapingHistory.find({ user: userId }).sort({ playedAt: -1 });
+    // const history = await SpeedTapingHistory.find({ user: userId }).sort({ playedAt: -1 });
 
     return {
         highScore: highScoreData ? highScoreData.highScore : 0,
-        history
-    };
+    }
+        
+       
+    
 };
 
 module.exports = { saveScore, getUserGameData };

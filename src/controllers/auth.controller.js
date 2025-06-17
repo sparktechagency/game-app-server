@@ -148,9 +148,9 @@ const forgotPassword = catchAsync(async (req, res) => {
 
   // Check if previous OTP is still valid (within 3 minutes)
   const currentTime = new Date();
-  if (user.oneTimeCodeExpiresAt && user.oneTimeCodeExpiresAt > currentTime) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Try again after 3 minutes");
-  }
+  // if (user.oneTimeCodeExpiresAt && user.oneTimeCodeExpiresAt > currentTime) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, "Try again after 3 minutes");
+  // }
 
   // Generate new OTP
   const oneTimeCode = Math.floor(1000 + Math.random() * 9000);
@@ -170,7 +170,7 @@ const forgotPassword = catchAsync(async (req, res) => {
       message: "OTP sent successfully",
       status: "OK",
       statusCode: httpStatus.OK,
-      data: {},
+      data: {oneTimeCode:oneTimeCode},
     })
   );
 });
