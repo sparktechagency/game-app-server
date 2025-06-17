@@ -114,144 +114,45 @@ const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
 //     return parts.join(' ');
 // }
 
-// const getWorkoutGameStatus = async (userId, filter, date) => {
-//     let startDate, endDate;
-
-//     if (!date) {
-//         throw new Error('Date parameter is required');
-//     }
-//      // Allowed filter values
-//     const allowedFilters = ['day', 'week', 'month', 'year'];
-
-//     // Validation for filter
-//     if (!allowedFilters.includes(filter)) {
-//         throw new Error('Invalid filter type. Only day, week, month, or year are allowed.');
-//     }
-
-//     switch (filter) {
-//         case 'day':
-//             startDate = moment.utc(date).startOf('day').toDate();
-//             endDate = moment.utc(date).endOf('day').toDate();
-//             break;
-
-//         case 'week':
-//             startDate = moment.utc(date).startOf('isoWeek').toDate();
-//             endDate = moment.utc(date).endOf('isoWeek').toDate();
-//             break;
-
-//         case 'month':
-//             startDate = moment.utc(date).startOf('month').toDate();
-//             endDate = moment.utc(date).endOf('month').toDate();
-//             break;
-
-//         case 'year':
-//             startDate = moment.utc(date).startOf('year').toDate();
-//             endDate = moment.utc(date).endOf('year').toDate();
-//             break;
-
-//         default:
-//             throw new Error('Invalid filter type. Use day, week, month, or year.');
-//     }
-
-//     if (filter === 'year') {
-//         const records = await WorkoutGameStatuse.aggregate([
-//             {
-//                 $match: {
-//                     user: new mongoose.Types.ObjectId(userId),
-//                     date: { $gte: startDate, $lte: endDate }
-//                 }
-//             },
-//             {
-//                 $project: {
-//                     date: 1,
-//                     timeforplayGame: 1,
-//                     timeforWorkout: 1,
-//                     month: { $month: "$date" }
-//                 }
-//             },
-//             {
-//                 $group: {
-//                     _id: "$month",
-//                     totalTimeForPlayGame: { $sum: "$timeforplayGame" },
-//                     totalTimeForWorkout: { $sum: "$timeforWorkout" }
-//                 }
-//             },
-//             {
-//                 $sort: { _id: 1 }
-//             }
-//         ]);
-
-//         return records.map(record => ({
-//             monthName: monthNames[record._id - 1],
-//             totalTimeForPlayGame: formatSeconds(record.totalTimeForPlayGame),
-//             totalTimeForWorkout: formatSeconds(record.totalTimeForWorkout)
-//         }));
-
-//     } else {
-//         const records = await WorkoutGameStatuse.aggregate([
-//             {
-//                 $match: {
-//                     user: new mongoose.Types.ObjectId(userId),
-//                     date: { $gte: startDate, $lte: endDate }
-//                 }
-//             },
-//             {
-//                 $project: {
-//                     date: 1,
-//                     timeforplayGame: 1,
-//                     timeforWorkout: 1,
-//                     dayOfWeek: { $dayOfWeek: "$date" },
-//                     month: { $month: "$date" }
-//                 }
-//             },
-//             {
-//                 $sort: { date: -1 }
-//             }
-//         ]);
-
-//         return records.map(record => ({
-//             date: record.date,
-//             timeforplayGame: formatSeconds(record.timeforplayGame),
-//             timeforWorkout: formatSeconds(record.timeforWorkout),
-//             dayName: dayNames[record.dayOfWeek - 1],
-//             monthName: monthNames[record.month - 1]
-//         }));
-//     }
-// };
-
 const getWorkoutGameStatus = async (userId, filter, date) => {
     let startDate, endDate;
-
-    // Allowed filter values
-
-
-    // Validation for date
+ console.log(date);
     if (!date) {
         throw new Error('Date parameter is required');
     }
+     // Allowed filter values
+    const allowedFilters = ['day', 'week', 'month', 'year'];
 
+    // Validation for filter
+    if (!allowedFilters.includes(filter)) {
+        throw new Error('Invalid filter type. Only day, week, month, or year are allowed.');
+    }
+
+   // Directly using the user-provided date with timezone
     switch (filter) {
         case 'day':
-            startDate = moment.utc(date).startOf('day').toDate();
-            endDate = moment.utc(date).endOf('day').toDate();
+            startDate = moment(date).startOf('day').toDate();
+            endDate = moment(date).endOf('day').toDate();
             break;
 
         case 'week':
-            startDate = moment.utc(date).startOf('isoWeek').toDate();
-            endDate = moment.utc(date).endOf('isoWeek').toDate();
+            startDate = moment(date).startOf('isoWeek').toDate();
+            endDate = moment(date).endOf('isoWeek').toDate();
             break;
 
         case 'month':
-            startDate = moment.utc(date).startOf('month').toDate();
-            endDate = moment.utc(date).endOf('month').toDate();
+            startDate = moment(date).startOf('month').toDate();
+            endDate = moment(date).endOf('month').toDate();
             break;
 
         case 'year':
-            startDate = moment.utc(date).startOf('year').toDate();
-            endDate = moment.utc(date).endOf('year').toDate();
+            startDate = moment(date).startOf('year').toDate();
+            endDate = moment(date).endOf('year').toDate();
             break;
-    }
 
+        default:
+            throw new Error('Invalid filter type. Use day, week, month, or year.');
+    }
     if (filter === 'year') {
         const records = await WorkoutGameStatuse.aggregate([
             {
@@ -310,13 +211,15 @@ const getWorkoutGameStatus = async (userId, filter, date) => {
 
         return records.map(record => ({
             date: record.date,
-            timeforplayGame:record.timeforplayGame,
+            timeforplayGame: record.timeforplayGame,
             timeforWorkout: record.timeforWorkout,
             dayName: dayNames[record.dayOfWeek - 1],
             monthName: monthNames[record.month - 1]
         }));
     }
 };
+
+
 
 
 

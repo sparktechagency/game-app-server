@@ -30,7 +30,7 @@ const register = catchAsync(async (req, res) => {
       throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
     }
   } else {
-    await userService.createUser({
+  await userService.createUser({
       
       email,
       ...rest

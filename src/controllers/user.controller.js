@@ -8,6 +8,7 @@ const unlinkImages = require("../common/unlinkImage");
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
+  console.log(user,"sdlkfjsdlkfjlksdfjlkdsfj");
   res.status(httpStatus.CREATED).json(
     response({
       message: "User Created",

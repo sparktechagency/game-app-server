@@ -70,6 +70,7 @@ const getWorkoutGameStatus = async (req, res) => {
             }))
     }
         const date = moment().startOf('day');
+        console.log(date);
         const result = await workoutGameService.getWorkoutGameStatus(userId, filter, date);
 
     //   Return the success response

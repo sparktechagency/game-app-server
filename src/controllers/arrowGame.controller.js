@@ -6,8 +6,10 @@ const { arrowGameService } = require("../services");
 
 // Create or update arrow game score
 const createArrowScore = catchAsync(async (req, res) => {
-    const { score } = req.body;
+    let { score } = req.body;
     const userId = req.user.id;
+    // Convert score to number
+    score = parseInt(score);
 
     if (!score || score <= 0) {
         return res.status(httpStatus.BAD_REQUEST).json(
