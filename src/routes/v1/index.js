@@ -8,6 +8,8 @@ const purchaseRouter=require('./purchase.routes')
 const workoutGameStatus=require('./workoutGameStatus.route')
 const speedTappingRouter=require('./speedTapping.routes')
 const arrowGameRouter=require('./arrowGame.routes')
+const picturematchingRouter=require('./picturematching.routes')
+const mathquizRouter=require('./mathquize.routes')
 
 
 const router = express.Router();
@@ -40,6 +42,14 @@ const defaultRoutes = [
   {
     path: "/arrow-game",
     route: arrowGameRouter,
+  },
+  {
+    path: "/picture-match",
+    route: picturematchingRouter,
+  },
+  {
+    path: "/math-quiz",
+    route: mathquizRouter,
   },
  
 ];

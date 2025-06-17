@@ -20,11 +20,11 @@ const savePictureMatchScore = async (userId, score) => {
 // Get user's high score and history
 const getPictureMatchGameData = async (userId) => {
     const userScore = await PictureMatchGameUser.findOne({ user: userId });
-    const gameHistory = await PictureMatchGameHistory.find({ user: userId }).sort({ playedAt: -1 });
+    
 
     return {
         highScore: userScore ? userScore.highScore : 0,
-        gameHistory
+        
     };
 };
 
