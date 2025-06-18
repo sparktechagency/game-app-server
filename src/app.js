@@ -14,6 +14,9 @@ const { authLimiter } = require("./middlewares/rateLimiter");
 const routes = require("./routes/v1");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
+const userActivity = require("./middlewares/activityTracer");
+// server.js or app.js
+require('./cornjob');
 
 const app = express();
 
@@ -48,6 +51,12 @@ app.options("*", cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
+
+// Apply global JWT authentication
+// app.use(passport.authenticate('jwt', { session: false }));
+
+// Apply user activity tracking middleware
+app.use(userActivity);
 
 // limit repeated failed requests to auth endpoints
 if (config.env === "production") {

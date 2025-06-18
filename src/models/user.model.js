@@ -116,6 +116,15 @@ const userSchema = mongoose.Schema(
       required: false,
       default: null,
     },
+    lastActiveAt: {
+        type: Date,
+        default: Date.now
+    },
+    isInactiveEmailSent: {
+  type: Boolean,
+  default: false,
+},
+
     isDeleted: {
       type: Boolean,
       default: false
