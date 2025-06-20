@@ -120,6 +120,8 @@ const userSchema = mongoose.Schema(
         type: Date,
         default: Date.now
     },
+    lastInactiveEmailSentAt: { type: Date, default: null },
+
     isInactiveEmailSent: {
   type: Boolean,
   default: false,

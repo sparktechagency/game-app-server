@@ -77,13 +77,13 @@ const sendVerificationEmail = async (to, token) => {
   await sendEmail(to, subject, html);
 };
 
-const sendInactivityEmail = async (to, name) => {
+const sendInactivityEmail = async (to, name,time) => {
   const subject = 'We Miss You!';
   const html = `
     <body style="background-color: #f3f4f6; padding: 1rem; font-family: Arial, sans-serif;">
       <div style="max-width: 24rem; margin: 0 auto; background-color: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
         <h1 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Hello ${name || 'there'},</h1>
-        <p style="color: #4b5563; margin-bottom: 1rem;">We noticed you haven’t been active in the last 7 days. We miss you!</p>
+        <p style="color: #4b5563; margin-bottom: 1rem;">We noticed you haven’t been active in the last${time} days. We miss you!</p>
         <p style="color: #4b5563; margin-bottom: 1rem;">Come back and check out what’s new!</p>
       </div>
     </body>

@@ -34,16 +34,16 @@ const User = require("../models/user.model");
 
 // module.exports = userActivity;
 
-
 const userActivity = async (req, res, next) => {
   try {
     if (req.user && req.user.id) {
       const user = await User.findById(req.user.id);
+      console.log(user);
 
       if (user) {
-        // ✅ Just update the last activity time
         user.lastActiveAt = new Date();
-        user.isInactiveEmailSent = false; // Reset email sent flag if user is active again
+        user.isInactiveEmailSent = false; // Not needed anymore but can keep for safety
+        user.lastInactiveEmailSentAt = null; // Reset email timer
         await user.save();
       }
     }
