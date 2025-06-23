@@ -45,8 +45,8 @@ const { sendInactivityEmail } = require('./services/email.service');
 // });
 
 // Runs every day at midnight (00:00 server time)
-cron.schedule('0 0 * * *', async () => {
-  console.log('Running daily inactivity check...');
+cron.schedule('0 * * * *', async () => {
+  console.log('Running hourly inactivity check...');
 
   try {
     const now = new Date();
