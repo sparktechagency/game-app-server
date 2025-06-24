@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 const catchAsync = require("../utils/catchAsync");
-const { mathquizeController } = require("../services");
+const {  mathquizeService } = require("../services");
 const response = require("../config/response");
 
 
@@ -15,7 +15,7 @@ const createMathquizeScore = catchAsync(async (req, res) => {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Score must be provided and greater than 0.');
     }
 
-    const result = await mathquizeController.saveMathquizeScore(userId, score);
+    const result = await mathquizeService.saveMathquizeScore(userId, score);
 
     res.status(httpStatus.CREATED).json(
         response({
@@ -31,7 +31,7 @@ const createMathquizeScore = catchAsync(async (req, res) => {
 const showMathquizeUserScores = catchAsync(async (req, res) => {
     const userId = req.user.id;
 
-    const gameData = await mathquizeController.getMathquizeUserData(userId);
+    const gameData = await mathquizeService.getMathquizeUserData(userId);
 
     res.status(httpStatus.OK).json(
         response({

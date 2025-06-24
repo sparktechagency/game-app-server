@@ -10,6 +10,7 @@ const speedTappingRouter=require('./speedTapping.routes')
 const arrowGameRouter=require('./arrowGame.routes')
 const picturematchingRouter=require('./picturematching.routes')
 const mathquizRouter=require('./mathquize.routes')
+const subscriberRouter=require('./subscriber.routes')
 
 
 const router = express.Router();
@@ -50,6 +51,10 @@ const defaultRoutes = [
   {
     path: "/math-quiz",
     route: mathquizRouter,
+  },
+  {
+    path: "/subscriber",
+    route: subscriberRouter,
   },
  
 ];
