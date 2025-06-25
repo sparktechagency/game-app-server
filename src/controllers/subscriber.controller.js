@@ -98,9 +98,56 @@ const getSubscription = catchAsync(async (req, res) => {
      
     }));
 });
+// Get current subscription
+const showAlltheSubscriber = catchAsync(async (req, res) => {
+  const { name } = req.query; // get full name from query
+
+  const subscription = await subscriberService.showAlltheSubscriber(name);
+
+  if (!subscription || subscription.length === 0) {
+    return res.status(httpStatus.NOT_FOUND).json({
+      status: 'failed',
+      message: 'No subscription found',
+    });
+  }
+
+  return res.status(httpStatus.OK).json(
+    response({
+      message: "Filtered subscription list by full name",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data: subscription,
+    })
+  );
+});
+
+// Get current subscription
+const showSubscriberUserById = catchAsync(async (req, res) => {
+  const {id} = req.query;
+
+  const subscription = await subscriberService.showSubscriberUserById(id);
+
+  if (!subscription) {
+    return res.status(httpStatus.NOT_FOUND).json({
+      status: 'failed',
+      message: 'No subscription found',
+    });
+  }
+
+  return res.status(httpStatus.OK).json(
+     response({
+      message: "my subscription  the subscription  ",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data: subscription,
+     
+    }));
+});
 
 module.exports = {
   createSubscription,
   cancelSubscription,
   getSubscription,
+  showAlltheSubscriber,
+  showSubscriberUserById
 };

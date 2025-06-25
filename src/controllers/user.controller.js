@@ -139,6 +139,55 @@ const deleteUser = catchAsync(async (req, res) => {
   );
 });
 
+
+// admin dashbored overview 
+//-----------------------------------------------------------------
+const userOverview = catchAsync(async (req, res) => {
+  const data = await userService.userOverview();
+
+  return res.status(httpStatus.OK).json(
+    response({
+      message: "Admin user overview fetched successfully",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data,
+    })
+  );
+});
+
+/// admin  user graph inthe dashbored 
+//----------------------------------------------
+const getUserGraphByMonth = catchAsync(async (req, res) => {
+  const { type = 'all', year = new Date().getFullYear() } = req.query;
+
+  const data = await userService.getMonthlyUserGraphData(type, parseInt(year));
+
+  res.status(httpStatus.OK).json(
+    response({
+      message: "Monthly user registration data",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data,
+    })
+  );
+});
+/// admin  user graph inthe dashbored 
+//----------------------------------------------
+const showAllUser = catchAsync(async (req, res) => {
+ 
+
+  const data = await userService.showAllUser();
+
+  res.status(httpStatus.OK).json(
+    response({
+      message: "shoing all the user ",
+      status: "OK",
+      statusCode: httpStatus.OK,
+      data,
+    })
+  );
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -147,4 +196,7 @@ module.exports = {
   updateUser,
   updateProfile,
   deleteUser,
+  userOverview,
+  getUserGraphByMonth,
+  showAllUser
 };

@@ -113,6 +113,85 @@ const isUpdateUser = async (userId, updateBody) => {
   return user;
 };
 
+
+// user overview in the admin dahsbored 
+//-----------------------------------------------------
+const userOverview = async () => {
+  const now = new Date();
+  const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000); // 🔁 7 days ago
+
+  const totalUsers = await User.countDocuments({ isDeleted: false });
+  const premiumUsers = await User.countDocuments({ isSubscribed: true, isDeleted: false });
+
+  const newUsersLast7Days = await User.countDocuments({
+    createdAt: { $gte: sevenDaysAgo }, // 🔁 Changed from today to 7 days ago
+    isDeleted: false,
+  });
+
+  const activeUsers = await User.countDocuments({
+    lastActiveAt: { $gte: oneDayAgo },
+    isDeleted: false,
+  });
+
+  return {
+    totalUsers,
+    premiumUsers,
+    newUsersLast7Days,
+    activeUsers,
+  };
+};
+
+// show all the user or premaire user graph 
+//-------------------------------------------------------------
+const getMonthlyUserGraphData = async (type, year) => {
+  const match = {
+    isDeleted: false,
+    createdAt: {
+      $gte: new Date(`${year}-01-01T00:00:00Z`),
+      $lte: new Date(`${year}-12-31T23:59:59Z`)
+    }
+  };
+
+  if (type === 'premium') {
+    match.isSubscribed = true;
+  }
+
+  const monthlyData = await User.aggregate([
+    { $match: match },
+    {
+      $group: {
+        _id: { $month: "$createdAt" },
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const finalData = monthNames.map((month, index) => {
+    const dataItem = monthlyData.find(item => item._id === index + 1);
+    return {
+      month,
+      count: dataItem ? dataItem.count : 0
+    };
+  });
+
+  return finalData;
+};
+
+
+// show all the user for the admin dashbored 
+//-------------------------------------------------------
+
+const showAllUser = async () => {
+  const result = await User.find({ role: 'user', isDeleted: false });
+  return result;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -120,5 +199,8 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  isUpdateUser
+  isUpdateUser,
+  userOverview,
+  getMonthlyUserGraphData,
+  showAllUser
 };

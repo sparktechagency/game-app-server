@@ -151,6 +151,8 @@ const userSchema = mongoose.Schema(
         trim: true,
         default: null,
       },
+          active: { type: Boolean, default: true },
+
       securityAnswer: {
         type: String,
         required: function () {

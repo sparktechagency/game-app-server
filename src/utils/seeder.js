@@ -12,7 +12,7 @@ const usersData = [
     email: "admin@gmail.com",
     phoneNumber: "01735566789",
     password: "$2a$08$cUQ3uMdbQjlyDF/dgn5mNuEt9fLJZqq8TaT9aKabrFuG5wND3/mPO", // password: 1qazxsw2
-    role: "superAdmin",
+    role: "admin",
     isEmailVerified: true,
   },
   {
