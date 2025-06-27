@@ -73,6 +73,7 @@ const updateUserById = async (userId, updateBody) => {
 // console.log(updateBody,"sdklfjsdkl;fjsd");
   Object.assign(user, updateBody);
   await user.save();
+  console.log(user,"sdjlksfjlksdfjlksdf ");
   return user;
 };
 

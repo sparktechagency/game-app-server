@@ -105,17 +105,10 @@ const updateUser = catchAsync(async (req, res) => {
 });
 
 const updateProfile = catchAsync(async (req, res) => {
-  // if (req.file) {
-  //   req.body.image = `/uploads/users/${req.file.filename}`;
-  // }
-
-  // // Set fullName if firstName or lastName is provided
-  // if (!req.body.fullName && (req.body.firstName || req.body.lastName)) {
-  //   req.body.fullName = `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim();
-  // }
-  // console.log(req.body,"sdklfsdkl;fsdlkfjlksdfj",req.body,req.user.id);
+  
 
   const user = await userService.updateUserById(req.user.id, req.body);
+  
 
   res.status(httpStatus.OK).json(
     response({

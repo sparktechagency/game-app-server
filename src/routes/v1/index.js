@@ -11,6 +11,7 @@ const arrowGameRouter=require('./arrowGame.routes')
 const picturematchingRouter=require('./picturematching.routes')
 const mathquizRouter=require('./mathquize.routes')
 const subscriberRouter=require('./subscriber.routes')
+const privacyRouter=require('./privacy.routes')
 
 
 const router = express.Router();
@@ -55,6 +56,10 @@ const defaultRoutes = [
   {
     path: "/subscriber",
     route: subscriberRouter,
+  },
+  {
+    path: "/my-app",
+    route: privacyRouter,
   },
  
 ];
